@@ -10,10 +10,10 @@ export default function Test_phys_color() {
   useEffect(() => {
     let interval = setInterval(() => {
       setCounter(compCounter => {
-        setBg(sine(compCounter, 127.5, 0.05, 127.5))
+        setBg(sine(compCounter, 127.5, .005, 127.5))
         return compCounter + 1
       })
-    }, 1000)
+    }, 1)
 
     return () => {
       clearInterval(interval)
@@ -35,7 +35,7 @@ export default function Test_phys_color() {
   return (
     <div className="container">
       <div className="content" style={style}> Hello </div>
-      <span>{sine(compCounter, 127.5, 0.1, 127.5)}</span>
+      <span>{sine(compCounter, 127.5, .005, 127.5)}</span>
     </div>
   )
 }
