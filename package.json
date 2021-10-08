@@ -1,22 +1,23 @@
 {
   "name": "react-phys-color",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hook for changing HTML element color attribute in a 'physical' way",
   "main": "src/index.js",
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3",
-    "web-vitals": "^1.1.2"
-  },
-  "devDependencies": {},
+  "files": [
+    "src/index.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmartin4820/react-phys-color.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "files": [
-    "src/index.js"
-  ]
+  "bugs": {
+    "url": "https://github.com/dmartin4820/react-phys-color/issues"
+  },
+  "homepage": "https://github.com/dmartin4820/react-phys-color#readme"
 }
