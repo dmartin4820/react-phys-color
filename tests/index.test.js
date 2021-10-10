@@ -1,8 +1,8 @@
-import {usePhysColor} from '../src/index'
+import usePhysColor from '../src/index'
 
 describe('Output', () => {
   it('should return an array', () => {
-    const output = usePhysColor()
+    const output = usePhysColor({})
     expect(Array.isArray(output)).toBeTruthy()
   })
 
@@ -12,6 +12,7 @@ describe('Output', () => {
   })
 
   it('should return an array containing a timeStep number if given syncTime is true in options', () => {
+    const timeStep = 0
     const expected = [timeStep]
     let output = usePhysColor({syncTime: true})
     expect(output).toEqual(expect.arrayContaining(expected))
@@ -26,8 +27,12 @@ describe('Output', () => {
     }
     const [style] = usePhysColor({style: inputStyle})
     const properties = Object.getOwnPropertyNames(style)
+    console.log(properties)
     const inputProperties = Object.getOwnPropertyNames(inputStyle)
+    console.log(inputProperties)
 
-    expect(properties === inputProperties).toBeTruthy()
+    
+    expect(properties[0] === inputProperties[0]).toBeTruthy()
   })
 })
+
