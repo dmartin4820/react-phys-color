@@ -1,5 +1,5 @@
 function usePhysColor() {
-  const color; //TODO
-  return [color]
+  const style = {}; //TODO
+  return [style]
 }
 export default usePhysColor

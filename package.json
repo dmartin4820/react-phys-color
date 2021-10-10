@@ -6,10 +6,13 @@
   "files": [
     "src/index.js"
   ],
+  "jest": {
+    "rootDir": "./tests"
+  },
   "scripts": {
     "start": "cd test-react-app && npm start",
     "install": "cd test-react-app && npm i",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +24,18 @@
   "bugs": {
     "url": "https://github.com/dmartin4820/react-phys-color/issues"
   },
-  "homepage": "https://github.com/dmartin4820/react-phys-color#readme"
+  "homepage": "https://github.com/dmartin4820/react-phys-color#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "jest": "^27.2.5",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
+  },
+  "babel": { 
+    "env": {
+      "test": {
+        "plugins": ["@babel/plugin-transform-modules-commonjs"]
+      }
+    }
+  }
 }
