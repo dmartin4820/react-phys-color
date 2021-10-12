@@ -2,13 +2,10 @@ import functions from './functions'
 import {useState, useEffect} from 'react'
 
 function usePhysColor(options = {style: {}, syncTime: false}) {
-  const [style, setStyle] = useState({})
+  const [_style, setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0)
   
-  const _style = {
-    ...options.style
-  }
-  const output = [style]
+  const output = [_style]
   // useEffect(() => {
   //   let interval = setInterval(() => {
   //     setCounter(internalCounter => {
@@ -30,7 +27,7 @@ function usePhysColor(options = {style: {}, syncTime: false}) {
   // } 
 
   if (options.syncTime) {
-    output.push({value: 0})
+    output.push(0)
   }
 
   return output
