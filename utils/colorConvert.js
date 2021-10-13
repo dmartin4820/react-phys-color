@@ -1,5 +1,9 @@
+// const colorChecker = (value) => {
+//   if 
+// }
+
 const hexToRGB = (hex) => {
-  if (typeof hex !== 'string' || hex[0] !== '#' || hex.length !== 7) {
+  if (typeof hex !== 'string' || hex[0] !== '#' || hex.length < 7) {
     throw new Error("Input must be in hex format (e.g.: '#15ff00')")
   }
   const r = parseInt(hex.slice(1, 3), 16)
@@ -7,7 +11,7 @@ const hexToRGB = (hex) => {
   const b = parseInt(hex.slice(5, 7), 16)
 
   //object contains RGB values
-  const rgb = { r, g, b }
+  const rgb = { r, g, b } //TODO: add opacity
 
   return rgb
 }
