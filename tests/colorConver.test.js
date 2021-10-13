@@ -1,6 +1,6 @@
 import { hexToRGB } from "../utils/colorConvert";
 
-describe('Output', () => {
+describe('hexToRGBA Output', () => {
   it('should return an object', () => {
     const result = hexToRGB('#000000')
     expect(typeof result === 'object');
@@ -9,7 +9,8 @@ describe('Output', () => {
   it('should return the correct rgba values when given a hex input', () => {
     const expected = {r: 66, g: 50, b: 168, a:0.42};
     const result = hexToRGB('#4232a842');
-    expect(expected).toMatchObject(result);
+    console.log(expected, result);
+    expect(expected).toStrictEqual(result);
   });
 
   it('should throw if given an incorrect input', () => {
