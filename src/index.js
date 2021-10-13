@@ -1,11 +1,29 @@
 import functions from './functions'
 import {useState, useEffect} from 'react'
 
-function usePhysColor(options = {style: {}, syncTime: false}) {
+function usePhysColor(userOptions = {}) {
+  let options = {style: {}, syncTime: false}
+  options = {
+    ...options,
+    ...userOptions
+  }
+
   const [_style, setStyle] = useState({...options.style})
-  const [internalCounter, setInternalCounter] = useState(0)
-  
+  const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
+  
+  if (options.style && Object.getOwnPropertyNames(options.style).length > 1) {
+    throw new Error('Only one CSS property can be specified in usePhysColor options')
+  }
+
+  if (!(!Array.isArray(options.style) && typeof options.style === 'object')) {
+    throw new Error('Style must be an object')
+  }
+
+  if (typeof options.syncTime !== 'boolean') {
+    throw new Error('syncTime must be a boolean')
+  }
+
   // useEffect(() => {
   //   let interval = setInterval(() => {
   //     setCounter(internalCounter => {
