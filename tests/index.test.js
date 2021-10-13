@@ -1,6 +1,51 @@
 import usePhysColor from '../src/index'
 import {renderHook} from '@testing-library/react-hooks'
 
+describe('Input', () => {
+  it('should throw an error if style contains more than one CSS property', () => {
+    var { result } = renderHook(() => usePhysColor({
+      style: {
+        backgroundColor: '',
+        color: ''
+      }
+    }))
+    const expected = Error('Only one CSS property can be specified in usePhysColor options')
+
+    expect(result.error).toEqual(expected)
+
+    var { result } = renderHook(() => usePhysColor({
+      style: {
+        backgroundColor: ''
+      }
+    }))
+
+    expect(result.error).toBeUndefined()
+
+  })
+
+  it('should throw an error if style is not an object', () => {
+    var { result } = renderHook(() => usePhysColor({
+      style: []
+    }))
+
+    const expected = Error('Style must be an object')
+
+    expect(result.error).toEqual(expected)
+
+    var { result } = renderHook(() => usePhysColor())
+
+    expect(result.error).toBeUndefined()
+  })
+
+  it('should throw an error if syncTime is not a boolean', () => {
+    var { result } = renderHook(() => usePhysColor({
+      syncTime: 0
+    }))
+
+    const expected = Error('syncTime must be a boolean')
+    expect(result.error).toEqual(expected)
+  })
+})
 
 describe('Output', () => {
   it('should return an array', () => {
@@ -34,9 +79,8 @@ describe('Output', () => {
     const { result } = renderHook(() => usePhysColor({style: inputStyle}))
     const [style] = result.current
     const properties = Object.getOwnPropertyNames(style)
-    console.log(properties)
     const inputProperties = Object.getOwnPropertyNames(inputStyle)
-    console.log(inputProperties)
+    console.log(result.error)
     
     expect(properties[0] === inputProperties[0]).toBeTruthy()
   })
