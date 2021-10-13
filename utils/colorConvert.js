@@ -10,15 +10,24 @@ const checkColorType = (string) => {
 }
 
 const hexToRGB = (hex) => {
-  if (typeof hex !== 'string' || hex[0] !== '#' || hex.length < 7) {
+  if (
+    typeof hex !== 'string' 
+    || hex[0] !== '#' 
+    || hex.length < 7 
+    || hex.length > 9
+    ) {
     throw new Error("Input must be in hex format (e.g.: '#15ff00')")
   }
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
-  const a = hex.slice(7, 9)/100
+  if (hex.slice(7, 9) || hex.slice(7,9 === '00')) {
+    var a = hex.slice(7, 9)/100
+  } else {
+    var a = 1 //default to 1 if opacity not included
+  }
 
-  //object contains RGB values
+  //object contains RGBA values
   const rgb = { r, g, b, a }
 
   return rgb
