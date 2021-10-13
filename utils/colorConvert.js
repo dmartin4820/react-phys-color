@@ -1,12 +1,12 @@
 const checkColorType = (string) => {
   let rgbRegEx = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/ //eg `rgb(13, 142, 12)`
   let rgbaRegEx = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3}), (\d{1,2})\)/ //e.g. `rgb(13, 142, 12, 13)`
-  
+
   if (rgbRegEx.exec(string) || rgbaRegEx.exec(string)) {
     return 'rgb'
   } else if (string[0] === '#') {
     return 'hex'
-  } else throw new Error('Color value is not hex or rgb value')
+  } else throw new Error('Color value is not hex or rgb value. Ensure spaces between values in rgb (e.g. "rgb(13, 142, 12)")')
 }
 
 const hexToRGB = (hex) => {
@@ -23,7 +23,6 @@ const hexToRGB = (hex) => {
 
   return rgb
 }
-
 
 module.exports = {
   hexToRGB,
