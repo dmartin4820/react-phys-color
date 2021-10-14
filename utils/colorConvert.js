@@ -38,25 +38,26 @@ const getRGBValues = (rgbString) => {
   rgb = rgb.substring(4, rgb.length-1)
   rgb = rgb.split(',')
   rgb = rgb.map(dimension => parseInt(dimension, 10))
-  return rgb
+  
+  
+  return {r: rgb[0], g: rgb[1], b: rgb[2], a: 1}
 }
 
 const getChangingDimension = (from, to) => {
   let dimension = ''
-  const dimensions = ['r', 'g', 'b']
-
-  for (let i = 0; i < from.length; i++) {
-    const toDimension = to[i]
-    const fromDimension = from[i]
+ 
+  for (let _dimension in from) {
+    const toDimension = to[_dimension]
+    const fromDimension = from[_dimension]
     const delta = toDimension - fromDimension
     console.log(delta)
     if (delta > 0) {
-      dimension = dimensions[i]
+      dimension = _dimension
     }
   }
+
   return dimension
 }
-
 
 module.exports = {
   hexToRGB,

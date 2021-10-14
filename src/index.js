@@ -80,7 +80,7 @@ function usePhysColor(userOptions = {}) {
   //   }
 
   //   newStyle[styleProp] = outputRGB 
-  //   setStyle(newStyle)
+  //   _setStyle(newStyle)
   // }
 
   if (options.syncTime) {
