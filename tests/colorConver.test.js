@@ -41,12 +41,8 @@ describe('hexToRGBA Output', () => {
     const error = "Input must be in hex format (e.g.: '#15ff00')"
     expect(() => {
       hexToRGB('abcd');
-    }).toThrow(error)
-    expect(() => {
       hexToRGB(123);
-    }).toThrow(error)
-    expect(() => {
       hexToRGB('#0000');
-    }).toThrow(error)
-  })
-})
+    }).toThrow(error);
+  });
+});
