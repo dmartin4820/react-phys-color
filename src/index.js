@@ -1,14 +1,33 @@
 import functions from './functions'
+import { getRGBValues, getChangingDimension} from '../utils/colorConvert'
 import {useState, useEffect} from 'react'
 
+//usePhysColor hook
+//currently supports only single dimension (r, g, or b) change in color
 function usePhysColor(userOptions = {}) {
-  let options = {style: {}, syncTime: false}
-  options = {
-    ...options,
-    ...userOptions
+  let options = {
+    style: {}, 
+    syncTime: false,
+    colorRange: {
+      from: 'rgb(0, 0, 0)',
+      to: 'rgb(0,0,255)'
+    }
   }
 
-  const [_style, setStyle] = useState({...options.style})
+  //Add code here to check if colorRange from and to contain hex values, if so, convert to rgb
+
+  //Also create variable indicating which dimension is changing
+
+  let dimension = ''
+  if (userOptions.colorRange) {
+    const from = getRGBValues(userOptions.colorRange.from)
+    const to = getRGBValues(userOptions.colorRange.to)
+    dimension = getChangingDimension(from, to)
+  }
+
+  Object.assign(options, userOptions)
+  
+  const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
   
@@ -37,12 +56,32 @@ function usePhysColor(userOptions = {}) {
   //   }
   // },[])
 
-  // function setBg(value) {
-  //   setStyle({
-  //     ...style,
-  //     backgroundColor: `rgb(0, 0, ${value})`
-  //   })
-  // } 
+  // // function setBg(value) {
+  // //   setStyle({
+  // //     ...style,
+  // //     backgroundColor: `rgb(0, 0, ${value})`
+  // //   })
+  // // } 
+
+  // function setStyle(value) {
+  //   const newStyle = {}
+  //   const styleProp = Object.getOwnPropertyNames()[0] //assuming only one CSS property
+  //   const outputRGB = ''
+
+  //   switch(dimension) {
+  //     case('r'):
+  //       outputRGB.concat(`rgb(${value}, 0, 0)`)
+  //       break
+  //     case('g'):
+  //       outputRGB.concat(`rgb(0, ${value}, 0)`)
+  //       break
+  //     case('b'):
+  //       outputRGB.concat(`rgb(0, 0, ${value})`)
+  //   }
+
+  //   newStyle[styleProp] = outputRGB 
+  //   setStyle(newStyle)
+  // }
 
   if (options.syncTime) {
     output.push(0)
