@@ -33,7 +33,34 @@ const hexToRGB = (hex) => {
   return rgb
 }
 
+const getRGBValues = (rgbString) => {
+  let rgb = rgbString.trim()//
+  rgb = rgb.substring(4, rgb.length-1)
+  rgb = rgb.split(',')
+  rgb = rgb.map(dimension => parseInt(dimension, 10))
+  
+  
+  return {r: rgb[0], g: rgb[1], b: rgb[2], a: 1}
+}
+
+const getChangingDimension = (from, to) => {
+  let dimension = ''
+ 
+  for (let _dimension in from) {
+    const toDimension = to[_dimension]
+    const fromDimension = from[_dimension]
+    const delta = toDimension - fromDimension
+    if (delta > 0) {
+      dimension = _dimension
+    }
+  }
+
+  return dimension
+}
+
 module.exports = {
   hexToRGB,
-  checkColorType
+  checkColorType,
+  getRGBValues,
+  getChangingDimension
 }

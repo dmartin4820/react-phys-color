@@ -1,14 +1,32 @@
-import functions from './functions'
+import functions from '../utils/functions'
+import { getRGBValues, getChangingDimension} from '../utils/colorConvert'
 import {useState, useEffect} from 'react'
 
+//usePhysColor hook
+//currently supports only single dimension (r, g, or b) change in color
 function usePhysColor(userOptions = {}) {
-  let options = {style: {}, syncTime: false}
-  options = {
-    ...options,
-    ...userOptions
+  let options = {
+    style: {}, 
+    syncTime: false,
+    colorRange: {
+      from: {r:0, g:0, b:80, a:1},
+      to: {r:0, g:0, b:255, a:1}
+    }
   }
 
-  const [_style, setStyle] = useState({...options.style})
+  //Add code here to check if colorRange from and to contain hex values, if so, convert to rgb
+
+  //Also create variable indicating which dimension is changing
+
+  let dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
+  if (userOptions.colorRange) {
+    const from = getRGBValues(userOptions.colorRange.from)
+    const to = getRGBValues(userOptions.colorRange.to)
+    dimension = getChangingDimension(from, to)
+  }
+
+  Object.assign(options, userOptions)
+  const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
   
@@ -24,47 +42,42 @@ function usePhysColor(userOptions = {}) {
     throw new Error('syncTime must be a boolean')
   }
 
-  // useEffect(() => {
-  //   let interval = setInterval(() => {
-  //     setCounter(internalCounter => {
-  //       setBg(functions.sine(internalCounter, 127.5, .005, 127.5))
-  //       return internalCounter + 1
-  //     })
-  //   }, 1)
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setInternalCounter(internalCounter => {
+        setStyle(functions.sine(internalCounter, 127.5, .005, 127.5))
+        return internalCounter + 1
+      })
+    }, 1)
 
-  //   return () => {
-  //     clearInterval(interval)
-  //   }
-  // },[])
+    return () => {
+      clearInterval(interval)
+    }
+  },[])
 
-  // function setBg(value) {
-  //   setStyle({
-  //     ...style,
-  //     backgroundColor: `rgb(0, 0, ${value})`
-  //   })
-  // } 
+  function setStyle(value) {
+    const newStyle = {}
+    const styleProp = Object.getOwnPropertyNames(options.style)[0]//assuming only one CSS property
+    let outputRGB = ''
+
+    switch(dimension) {
+      case('r'):
+        outputRGB = `rgb(${value}, 0, 0)`
+        break
+      case('g'):
+        outputRGB = `rgb(0, ${value}, 0)`
+        break
+      case('b'):
+        outputRGB = `rgb(0, 0, ${value})`
+        break
+    }
+    newStyle[styleProp] = outputRGB
+    _setStyle(newStyle)
+  }
 
   if (options.syncTime) {
     output.push(0)
   }
-
   return output
 }
-
 export default usePhysColor
-
-
-// import React from 'react'
-
-// export default function index() {
-//   const [counter, setCounter] = setState(0)
-//   let timer = setInterval(someFunction, 1000) //counter is incremented every second
-
-//   const [style1, timeStep] = usePhysColor({counter})
-//   const style2 = usePhysColor({counter: timeStep})
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
