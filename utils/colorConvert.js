@@ -50,7 +50,6 @@ const getChangingDimension = (from, to) => {
     const toDimension = to[_dimension]
     const fromDimension = from[_dimension]
     const delta = toDimension - fromDimension
-    console.log(delta)
     if (delta > 0) {
       dimension = _dimension
     }
