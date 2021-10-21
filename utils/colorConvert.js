@@ -58,9 +58,14 @@ const getChangingDimension = (from, to) => {
   return dimension
 }
 
+const objToString = (rgba) => {
+  return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`
+}
+
 module.exports = {
   hexToRGB,
   checkColorType,
   getRGBValues,
-  getChangingDimension
+  getChangingDimension,
+  objToString
 }
