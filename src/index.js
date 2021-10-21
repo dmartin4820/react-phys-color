@@ -1,5 +1,5 @@
 import functions from '../utils/functions'
-import { getRGBValues, getChangingDimension} from '../utils/colorConvert'
+import { getRGBValues, getChangingDimension, objToString} from '../utils/colorConvert'
 import {useState, useEffect} from 'react'
 
 //usePhysColor hook
@@ -74,19 +74,11 @@ function usePhysColor(userOptions = {}) {
   function setStyle(value) {
     const newStyle = {}
     const styleProp = Object.getOwnPropertyNames(options.style)[0]//assuming only one CSS property
-    let outputRGB = ''
 
-    switch(dimension) {
-      case('r'):
-        outputRGB = `rgb(${value}, 0, 0)`
-        break
-      case('g'):
-        outputRGB = `rgb(0, ${value}, 0)`
-        break
-      case('b'):
-        outputRGB = `rgb(0, 0, ${value})`
-        break
-    }
+    let rgba = options.colorRange.from
+    rgba[dimension] = value
+    let outputRGB = objToString(rgba)
+
     newStyle[styleProp] = outputRGB
     _setStyle(newStyle)
   }
