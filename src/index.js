@@ -11,6 +11,14 @@ function usePhysColor(userOptions = {}) {
     colorRange: {
       from: {r:0, g:0, b:80, a:1},
       to: {r:0, g:0, b:255, a:1}
+    },
+    function: {
+      fname: 'sine',
+      params: {
+        a: 127.5,
+        freq: .005,
+        offset: 127.5,
+      },
     }
   }
 
@@ -26,6 +34,8 @@ function usePhysColor(userOptions = {}) {
   }
 
   Object.assign(options, userOptions)
+  options.function.f = functions.getFunction(options.function.fname)
+  
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
@@ -42,10 +52,16 @@ function usePhysColor(userOptions = {}) {
     throw new Error('syncTime must be a boolean')
   }
 
+  
+
   useEffect(() => {
     let interval = setInterval(() => {
       setInternalCounter(internalCounter => {
-        setStyle(functions.sine(internalCounter, 127.5, .005, 127.5))
+        setStyle(functions.getCurrValue(
+          options.function.f,
+          internalCounter,
+          options.function.params
+        ))
         return internalCounter + 1
       })
     }, 1)
