@@ -1,5 +1,10 @@
 import functions from '../utils/functions'
-import { getRGBValues, getChangingDimension, objToString} from '../utils/colorConvert'
+import { 
+  getRGBValues,
+  getChangingDimension,
+  checkColorType,
+  hexToRGB
+} from '../utils/colorConvert'
 import {useState, useEffect} from 'react'
 
 //usePhysColor hook
@@ -9,7 +14,7 @@ function usePhysColor(userOptions = {}) {
     style: {}, 
     syncTime: false,
     colorRange: {
-      from: {r:0, g:0, b:80, a:1},
+      from: {r:0, g:0, b:0, a:1},
       to: {r:0, g:0, b:255, a:1}
     },
     function: {
@@ -21,18 +26,48 @@ function usePhysColor(userOptions = {}) {
       },
     }
   }
-
-  //Add code here to check if colorRange from and to contain hex values, if so, convert to rgb
-
-  //Also create variable indicating which dimension is changing
-
-  let dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
+  let from;
+  let to;
+  let dimension;
+  
+  //assumes userOptions.colorRange object key values are strings
   if (userOptions.colorRange) {
-    const from = getRGBValues(userOptions.colorRange.from)
-    const to = getRGBValues(userOptions.colorRange.to)
+    // const convertCodes = (output, input) => {
+    //   switch (input) {
+    //     case 'hex': 
+    //       output = hexToRGB(input)
+    //       break
+    //     case 'rgb':
+    //       output = getRGBValues(input)
+    //       break
+    //     default:
+    //       output = {r:0, g:0, b:0, a: 1}
+    //   };
+    // }
+    // convertCodes(from, userOptions.colorRange.from)
+    // convertCodes(to, userOptions.colorRange.to)
+    switch (checkColorType(userOptions.colorRange.from)) {
+      case 'hex': 
+        from = hexToRGB(userOptions.colorRange.from)
+        break
+      case 'rgb':
+        from = getRGBValues(userOptions.colorRange.from)
+        break
+    };
+    switch (checkColorType(userOptions.colorRange.to)) {
+      case 'hex': 
+        to = hexToRGB(userOptions.colorRange.to)
+        break
+      case 'rgb':
+        to = getRGBValues(userOptions.colorRange.to)
+        break
+    };
     dimension = getChangingDimension(from, to)
+  } else {
+    //default options
+    dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
   }
-
+  
   Object.assign(options, userOptions)
   options.function.f = functions.getFunction(options.function.fname)
   
@@ -51,8 +86,6 @@ function usePhysColor(userOptions = {}) {
   if (typeof options.syncTime !== 'boolean') {
     throw new Error('syncTime must be a boolean')
   }
-
-  
 
   useEffect(() => {
     let interval = setInterval(() => {
