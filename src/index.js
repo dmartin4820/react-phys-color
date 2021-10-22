@@ -15,7 +15,7 @@ function usePhysColor(userOptions = {}) {
     syncTime: false,
     colorRange: {
       from: {r:0, g:0, b:0, a:1},
-      to: {r:3, g:0, b:0, a:1}
+      to: {r:0, g:0, b:255, a:1}
     }
   }
   let from;
