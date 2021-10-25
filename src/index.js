@@ -33,6 +33,9 @@ function usePhysColor(userOptions = {}) {
   //assumes userOptions.colorRange object key values are strings
   if (userOptions.colorRange) {
     // const convertCodes = (output, input) => {
+    //   return input === 'hex' ? hexToRGB(input): getRGBValues(input)
+    // }
+    // const convertCodes = (output, input) => {
     //   switch (input) {
     //     case 'hex': 
     //       output = hexToRGB(input)
