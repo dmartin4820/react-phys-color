@@ -6,6 +6,7 @@ import {
   hexToRGB,
   objToString
 } from '../utils/colorConvert'
+import setupFunction from '../utils/setupFunctions'
 import {useState, useEffect} from 'react'
 
 //usePhysColor hook
@@ -27,29 +28,10 @@ function usePhysColor(userOptions = {}) {
       },
     }
   }
-  let from;
-  let to;
-  let dimension;
- 
-  //assumes userOptions.colorRange object key values are strings
-  if (userOptions.colorRange) {
-    const convertCodes = (input) => {
-      return checkColorType(input) === 'hex' ? hexToRGB(input): getRGBValues(input)
-    }
-    from = convertCodes(userOptions.colorRange.from)
-    to = convertCodes(userOptions.colorRange.to)
-
-    Object.assign(userOptions.colorRange, {from, to})
-    dimension = getChangingDimension(from, to)
-  } else {
-    //default options
-    dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
-  }
+  const modifiedOptions = configure(options, userOptions)
+  Object.assign(options, modifiedOptions)
   
-  Object.assign(options, userOptions)
-  options.function.f = functions.getFunction(options.function.fname)
- 
-  
+  const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
@@ -94,6 +76,31 @@ function usePhysColor(userOptions = {}) {
 
     newStyle[styleProp] = outputRGB
     _setStyle(newStyle)
+  }
+
+  function configure() {
+    if (userOptions.colorRange) {
+      const convertCodes = (input) => {
+        return checkColorType(input) === 'hex' ? hexToRGB(input): getRGBValues(input)
+      }
+      const from = convertCodes(userOptions.colorRange.from)
+      const to = convertCodes(userOptions.colorRange.to)
+    
+      Object.assign(userOptions.colorRange, {from, to})
+    } 
+    Object.assign(options, userOptions)
+    options.function.f = functions.getFunction(options.function.fname)
+    
+    const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
+    const modifiedFunction = setupFunction({
+      from: options.colorRange.from[dimension],
+      to: options.colorRange.to[dimension],
+      freq: 0.005
+    }, options.function)
+  
+    Object.assign(options.function, modifiedFunction)
+  
+    return options
   }
 
   if (options.syncTime) {
