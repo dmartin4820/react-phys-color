@@ -45,13 +45,16 @@ const getRGBValues = (rgbString) => {
 
 const getChangingDimension = (from, to) => {
   let dimension = ''
- 
+  let isChanging = false
   for (let _dimension in from) {
     const toDimension = to[_dimension]
     const fromDimension = from[_dimension]
     const delta = toDimension - fromDimension
-    if (delta > 0) {
+    if (delta > 0 && !isChanging) {
+      isChanging = true
       dimension = _dimension
+    } else if (delta !== 0 || isChanging) {
+      throw new Error('One value associated with "to" keys must be greater than "from" values')
     }
   }
 
