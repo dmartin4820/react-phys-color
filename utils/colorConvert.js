@@ -53,7 +53,7 @@ const getChangingDimension = (from, to) => {
     if (delta > 0 && !isChanging) {
       isChanging = true
       dimension = _dimension
-    } else if (delta !== 0 || isChanging) {
+    } else if (delta !== 0) {
       throw new Error('One value associated with "to" keys must be greater than "from" values')
     }
   }
