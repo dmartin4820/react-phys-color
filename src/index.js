@@ -16,6 +16,14 @@ function usePhysColor(userOptions = {}) {
     colorRange: {
       from: {r:0, g:0, b:0, a:1},
       to: {r:0, g:0, b:255, a:1}
+    },
+    function: {
+      fname: 'sine',
+      params: {
+        a: 127.5,
+        freq: .005,
+        offset: 127.5,
+      },
     }
   }
   let from;
@@ -24,6 +32,20 @@ function usePhysColor(userOptions = {}) {
   
   //assumes userOptions.colorRange object key values are strings
   if (userOptions.colorRange) {
+    // const convertCodes = (output, input) => {
+    //   switch (input) {
+    //     case 'hex': 
+    //       output = hexToRGB(input)
+    //       break
+    //     case 'rgb':
+    //       output = getRGBValues(input)
+    //       break
+    //     default:
+    //       output = {r:0, g:0, b:0, a: 1}
+    //   };
+    // }
+    // convertCodes(from, userOptions.colorRange.from)
+    // convertCodes(to, userOptions.colorRange.to)
     switch (checkColorType(userOptions.colorRange.from)) {
       case 'hex': 
         from = hexToRGB(userOptions.colorRange.from)
@@ -47,6 +69,8 @@ function usePhysColor(userOptions = {}) {
   }
   
   Object.assign(options, userOptions)
+  options.function.f = functions.getFunction(options.function.fname)
+  
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
@@ -66,7 +90,11 @@ function usePhysColor(userOptions = {}) {
   useEffect(() => {
     let interval = setInterval(() => {
       setInternalCounter(internalCounter => {
-        setStyle(functions.sine(internalCounter, 127.5, .005, 127.5))
+        setStyle(functions.getCurrValue(
+          options.function.f,
+          internalCounter,
+          options.function.params
+        ))
         return internalCounter + 1
       })
     }, 1)
@@ -79,19 +107,11 @@ function usePhysColor(userOptions = {}) {
   function setStyle(value) {
     const newStyle = {}
     const styleProp = Object.getOwnPropertyNames(options.style)[0]//assuming only one CSS property
-    let outputRGB = ''
 
-    switch(dimension) {
-      case('r'):
-        outputRGB = `rgb(${value}, 0, 0)`
-        break
-      case('g'):
-        outputRGB = `rgb(0, ${value}, 0)`
-        break
-      case('b'):
-        outputRGB = `rgb(0, 0, ${value})`
-        break
-    }
+    let rgba = options.colorRange.from
+    rgba[dimension] = value
+    let outputRGB = objToString(rgba)
+
     newStyle[styleProp] = outputRGB
     _setStyle(newStyle)
   }
