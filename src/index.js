@@ -33,39 +33,13 @@ function usePhysColor(userOptions = {}) {
  
   //assumes userOptions.colorRange object key values are strings
   if (userOptions.colorRange) {
-    // const convertCodes = (output, input) => {
-    //   return input === 'hex' ? hexToRGB(input): getRGBValues(input)
-    // }
-    // const convertCodes = (output, input) => {
-    //   switch (input) {
-    //     case 'hex': 
-    //       output = hexToRGB(input)
-    //       break
-    //     case 'rgb':
-    //       output = getRGBValues(input)
-    //       break
-    //     default:
-    //       output = {r:0, g:0, b:0, a: 1}
-    //   };
-    // }
-    // convertCodes(from, userOptions.colorRange.from)
-    // convertCodes(to, userOptions.colorRange.to)
-    switch (checkColorType(userOptions.colorRange.from)) {
-      case 'hex': 
-        from = hexToRGB(userOptions.colorRange.from)
-        break
-      case 'rgb':
-        from = getRGBValues(userOptions.colorRange.from)
-        break
-    };
-    switch (checkColorType(userOptions.colorRange.to)) {
-      case 'hex': 
-        to = hexToRGB(userOptions.colorRange.to)
-        break
-      case 'rgb':
-        to = getRGBValues(userOptions.colorRange.to)
-        break
-    };
+    const convertCodes = (input) => {
+      return checkColorType(input) === 'hex' ? hexToRGB(input): getRGBValues(input)
+    }
+    from = convertCodes(userOptions.colorRange.from)
+    to = convertCodes(userOptions.colorRange.to)
+
+    Object.assign(userOptions.colorRange, {from, to})
     dimension = getChangingDimension(from, to)
   } else {
     //default options
@@ -127,4 +101,6 @@ function usePhysColor(userOptions = {}) {
   }
   return output
 }
+
+
 export default usePhysColor
