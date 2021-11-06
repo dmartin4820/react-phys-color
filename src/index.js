@@ -3,7 +3,8 @@ import {
   getRGBValues,
   getChangingDimension,
   checkColorType,
-  hexToRGB
+  hexToRGB,
+  objToString
 } from '../utils/colorConvert'
 import {useState, useEffect} from 'react'
 
@@ -29,7 +30,7 @@ function usePhysColor(userOptions = {}) {
   let from;
   let to;
   let dimension;
-  
+ 
   //assumes userOptions.colorRange object key values are strings
   if (userOptions.colorRange) {
     // const convertCodes = (output, input) => {
@@ -70,6 +71,7 @@ function usePhysColor(userOptions = {}) {
   
   Object.assign(options, userOptions)
   options.function.f = functions.getFunction(options.function.fname)
+ 
   
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
@@ -86,6 +88,7 @@ function usePhysColor(userOptions = {}) {
   if (typeof options.syncTime !== 'boolean') {
     throw new Error('syncTime must be a boolean')
   }
+
 
   useEffect(() => {
     let interval = setInterval(() => {
