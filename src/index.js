@@ -1,13 +1,14 @@
-import functions from '../utils/functions'
-import { 
+import {useState, useEffect} from 'react'
+
+import {
   getRGBValues,
   getChangingDimension,
   checkColorType,
   hexToRGB,
-  objToString
-} from '../utils/colorConvert'
-import setupFunction from '../utils/setupFunctions'
-import {useState, useEffect} from 'react'
+  objToString,
+  setupFunction,
+  getFunction,
+  getCurrValue} from '../utils'
 
 //usePhysColor hook
 //currently supports only single dimension (r, g, or b) change in color
@@ -52,7 +53,7 @@ function usePhysColor(userOptions = {}) {
   useEffect(() => {
     let interval = setInterval(() => {
       setInternalCounter(internalCounter => {
-        setStyle(functions.getCurrValue(
+        setStyle(getCurrValue(
           options.function.f,
           internalCounter,
           options.function.params
@@ -89,7 +90,7 @@ function usePhysColor(userOptions = {}) {
       Object.assign(userOptions.colorRange, {from, to})
     } 
     Object.assign(options, userOptions)
-    options.function.f = functions.getFunction(options.function.fname)
+    options.function.f = getFunction(options.function.fname)
     
     const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
     const modifiedFunction = setupFunction({

@@ -65,7 +65,7 @@ const objToString = (rgba) => {
   return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`
 }
 
-module.exports = {
+export {
   hexToRGB,
   checkColorType,
   getRGBValues,

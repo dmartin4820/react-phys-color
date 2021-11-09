@@ -1,4 +1,4 @@
-function setupFunction(options, func) {
+const setupFunction = (options, func) => {
   let output
   switch(func.fname) { //Switch in case there are more functions than 2
     case 'sine':
@@ -35,4 +35,4 @@ function setupSine(from, to, freq) {
   }
 }
 
-export default setupFunction
+export { setupFunction }
