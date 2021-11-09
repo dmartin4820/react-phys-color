@@ -1,4 +1,4 @@
-export { setupFunction } from './setupFunctions' 
+export { setupFunction, setupSine} from './setupFunctions' 
 export {
   sine, 
   exp, 

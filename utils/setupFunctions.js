@@ -35,4 +35,4 @@ function setupSine(from, to, freq) {
   }
 }
 
-export { setupFunction }
+export { setupFunction, setupSine}
