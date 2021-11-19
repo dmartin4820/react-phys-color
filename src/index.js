@@ -27,11 +27,11 @@ function usePhysColor(userOptions = {}) {
         freq: .005,
         offset: 127.5,
       },
+      f: getFunction('sine')
     }
   }
-  const modifiedOptions = configure(options, userOptions)
-  Object.assign(options, modifiedOptions)
   
+  configure()
   const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
@@ -90,7 +90,7 @@ function usePhysColor(userOptions = {}) {
       Object.assign(userOptions.colorRange, {from, to})
     } 
     Object.assign(options, userOptions)
-    options.function.f = getFunction(options.function.fname)
+    Object.assign(options.function.f, getFunction(options.function.fname))
     
     const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
     const modifiedFunction = setupFunction({
@@ -100,8 +100,6 @@ function usePhysColor(userOptions = {}) {
     }, options.function)
   
     Object.assign(options.function, modifiedFunction)
-  
-    return options
   }
 
   if (options.syncTime) {
