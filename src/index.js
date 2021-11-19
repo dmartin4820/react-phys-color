@@ -12,7 +12,7 @@ import {
 
 //usePhysColor hook
 //currently supports only single dimension (r, g, or b) change in color
-function usePhysColor(userOptions = {}) {
+function usePhysColor(userOptions = {}, reset) {
   let options = {
     style: {}, 
     syncTime: false,
@@ -24,7 +24,7 @@ function usePhysColor(userOptions = {}) {
       fname: 'sine',
       params: {
         a: 127.5,
-        freq: .005,
+        freq: .005, //default value; will implement feature to be able to change frequency
         offset: 127.5,
       },
       f: getFunction('sine')
@@ -32,7 +32,10 @@ function usePhysColor(userOptions = {}) {
   }
   
   configure()
-  const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
+  const dimension = getChangingDimension(
+    options.colorRange.from, 
+    options.colorRange.to,
+    options.function.fname)
   const [_style, _setStyle] = useState({...options.style})
   const [internalCounter, setInternalCounter] = useState(0) 
   const output = [_style]
@@ -62,10 +65,15 @@ function usePhysColor(userOptions = {}) {
       })
     }, 1)
 
+    console.log('reset')
     return () => {
       clearInterval(interval)
     }
   },[])
+
+  useEffect(() => {
+    setInternalCounter(0)
+  }, [reset])
 
   function setStyle(value) {
     const newStyle = {}
@@ -91,14 +99,16 @@ function usePhysColor(userOptions = {}) {
     } 
     Object.assign(options, userOptions)
     Object.assign(options.function.f, getFunction(options.function.fname))
-    
-    const dimension = getChangingDimension(options.colorRange.from, options.colorRange.to)
+    const dimension = getChangingDimension(
+      options.colorRange.from, 
+      options.colorRange.to, 
+      options.function.fname)
     const modifiedFunction = setupFunction({
       from: options.colorRange.from[dimension],
       to: options.colorRange.to[dimension],
       freq: 0.005
     }, options.function)
-  
+ 
     Object.assign(options.function, modifiedFunction)
   }
 
