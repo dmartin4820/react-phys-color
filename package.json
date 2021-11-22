@@ -4,7 +4,7 @@
   "description": "Hook for changing HTML element color attribute in a 'physical' way",
   "main": "src/index.js",
   "files": [
-    "src/index.js"
+    "src"
   ],
   "jest": {
     "rootDir": "./tests"
@@ -16,9 +16,16 @@
     "type": "git",
     "url": "git+https://github.com/dmartin4820/react-phys-color.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "react",
+    "hooks",
+    "color",
+    "CSS",
+    "style",
+    "react-hooks"
+  ],
+  "author": "<dom4822@yahoo.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dmartin4820/react-phys-color/issues"
   },
