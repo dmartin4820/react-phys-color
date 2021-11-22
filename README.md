@@ -37,7 +37,8 @@ function App() {
 
 # Configuration
 
-```javascript {
+```javascript 
+{
   style: {},
   colorRange: {
     from: "#000000",
