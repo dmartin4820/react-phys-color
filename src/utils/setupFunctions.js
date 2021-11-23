@@ -46,6 +46,7 @@ const setupExp = (from, to, params) => {
   if (params.b === undefined) {
     throw Error ('Parameter b must be specified for exponential function')
   }
+  //Will remove this to allow for exponential growth
   if (params.b > 0) {
     throw Error('Invalid values for b')
   }
@@ -61,4 +62,4 @@ const setupExp = (from, to, params) => {
   }
 }
 
-export { setupFunction, setupSine}
+export { setupFunction, setupSine, setupExp }
