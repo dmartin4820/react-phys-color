@@ -1,5 +1,6 @@
 # React Phys Color
-React hook for changing a single CSS property along one of the R, G, or B axes. 
+React hook for changing a single CSS property along one of the R, G, or B axes.  This hook is heavily inspired by [react-spring](https://react-spring.io/hooks/use-spring), but the goal of this hook is to allow the user to specify different functions (currently only sine and exponential) to use for varying a CSS property.
+
 # Installation
 
 Inside of your React app run
