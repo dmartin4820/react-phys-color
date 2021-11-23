@@ -43,24 +43,45 @@ const getRGBValues = (rgbString) => {
   return {r: rgb[0], g: rgb[1], b: rgb[2], a: 1}
 }
 
-const getChangingDimension = (from, to) => {
+const getChangingDimension = (from, to, fname) => {
   let dimension = ''
- 
+  let isChanging = false
   for (let _dimension in from) {
     const toDimension = to[_dimension]
     const fromDimension = from[_dimension]
     const delta = toDimension - fromDimension
-    if (delta > 0) {
-      dimension = _dimension
+    
+    switch(fname) {
+      case('exp'):
+        if (Math.abs(delta) > 0 && !isChanging) {
+          isChanging = true
+          dimension = _dimension
+        }
+        break
+      case('sine'): 
+        if (delta > 0 && !isChanging) {
+          isChanging = true
+          dimension = _dimension
+        } else if (delta !== 0) {
+          throw new Error('One value associated with "to" keys must be greater than "from" values')
+        }
+        break
+      default:
+        throw new Error('No function type specified')
     }
   }
 
   return dimension
 }
 
-module.exports = {
+const objToString = (rgba) => {
+  return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`
+}
+
+export {
   hexToRGB,
   checkColorType,
   getRGBValues,
-  getChangingDimension
+  getChangingDimension,
+  objToString
 }

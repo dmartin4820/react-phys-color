@@ -1,4 +1,4 @@
-import { hexToRGB, checkColorType } from "../utils/colorConvert";
+import { hexToRGB, checkColorType } from "../src/utils";
 
 describe('checkColorType Output', () => {
   it ('should return rgb when given an rgb value', () => {
